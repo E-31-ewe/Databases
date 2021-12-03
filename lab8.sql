@@ -8,7 +8,7 @@ $$
     LANGUAGE PLPGSQL;
     
 select inc(val: 6);
---2.b.Returns sum of 2 numbers.
+--1.b.Returns sum of 2 numbers.
 CREATE FUNCTION summ(a NUMERIC, b NUMERIC)
   RETURNS NUMERIC AS 
 $$
@@ -19,7 +19,35 @@ $$
     LANGUAGE PLPGSQL;
 
 select summ(a: 3, b: 2);
---5.e. Returns two outputs, but has one input.
+--1.c.
+CREATE OR REPLACE FUNCTION divbytwo(value integer)
+RETURN BOOL AS
+$$
+BEGIN
+if value % 2 = 0 then
+return TRUE 
+else
+return FALSE
+END;
+$$
+LANGUAGE PLPGSQL;
+
+--1.d.
+CREATE OR REPLACE FUNCTION valid(password varchar) 
+ RETURNS bool AS 
+ $$ 
+ BEGIN 
+ if length(password)>0 then 
+ RETURN true; 
+ else 
+ RETURN false;  
+ END; $$ 
+ language plpgsql; 
+
+select is_valid(''); 
+
+
+--1.e. Returns two outputs, but has one input.
 CREATE  FUNCTION sum_avg(
      VARIADIC List NUMERIC[], 
      OUT total NUMERIC, 
@@ -73,10 +101,15 @@ AS $$
 BEGIN
    BEFORE UPDATE 
    ON table_name
-   NEW.age := ;
+   NEW.age :=2021 - NEW.year_birth;
    RETURN NEW;
 END;
 $$
+LANGUAGE PLPGSQL;
+
+SELECT * table_name;
+
+
 
 --3.What is the difference between procedure and function?
 --A procedure has no return value, while a function does.
